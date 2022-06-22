@@ -1,0 +1,23 @@
+name: Reusable Workflow user
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  run-my-workflow:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Run a one-line script
+        run: echo "Hello World!"
+  
+  run-reusable-workflow:
+    uses: danieldrrivera/reusable-workflows/.github/workflows/buildAndPublishDockerImage.yml@main
+    with:
+      image_name: my-awesome-app
+      tag: $GITHUB_RUN_NUMBER
+    secrets:
+      registry_username: ${{secrets.REGISTRY_USERNAME}}
+      registry_password: ${{secrets.REGISTRY_PASSWORD}}
